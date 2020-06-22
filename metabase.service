@@ -1,0 +1,15 @@
+[Unit]
+Description=Metabase web application
+After=network-online.target
+
+[Service]
+Type=simple
+User=metabase
+WorkingDirectory=/var/lib/metabase
+EnvironmentFile=-/etc/metabase/*.conf
+ExecStart=/usr/bin/java -jar /usr/libexec/metabase.jar
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
