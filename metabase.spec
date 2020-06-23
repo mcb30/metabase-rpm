@@ -21,9 +21,11 @@ Source0:	https://downloads.metabase.com/v%{version}/%{name}.jar
 Source1:	%{name}-sysusers.conf
 Source2:	%{name}.service
 Source3:	%{name}-defaults.conf
+Source4:	%{name}-httpd.conf
 BuildArch:	noarch
 BuildRequires:	systemd-rpm-macros
 Requires:	jre-headless
+Requires:	httpd-filesystem
 
 %description
 Metabase is an open source business intelligence tool.  It lets you ask
@@ -36,11 +38,14 @@ questions about your data and visualise the answers.
 
 %install
 mkdir -p %{buildroot}/%{_sharedstatedir}/%{name}
+mkdir -p %{buildroot}/%{_datadir}/%{name}
 mkdir -p %{buildroot}/%{_prefix}/lib/%{name}/plugins
 install -D -m 644 %{SOURCE0} %{buildroot}%{_libexecdir}/%{name}.jar
 install -D -m 644 %{SOURCE1} %{buildroot}%{_sysusersdir}/%{name}.conf
 install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
 install -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/10-defaults.conf
+install -D -m 644 %{SOURCE4} \
+	%{buildroot}%{_sysconfdir}/httpd/conf.d/50-%{name}.conf
 
 %pre
 %sysusers_create_package %{name} %{SOURCE1}
@@ -56,9 +61,11 @@ install -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/10-defaults.conf
 
 %files
 %dir %attr(0770, %{name}, %{name}) %{_sharedstatedir}/%{name}
+%dir %{_datadir}/%{name}
 %dir %{_sysconfdir}/%{name}
 %dir %{_prefix}/lib/%{name}/plugins
 %config(noreplace) %{_sysconfdir}/%{name}/10-defaults.conf
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/50-%{name}.conf
 %{_libexecdir}/%{name}.jar
 %{_sysusersdir}/%{name}.conf
 %{_unitdir}/%{name}.service
