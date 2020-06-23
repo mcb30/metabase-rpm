@@ -13,7 +13,7 @@
 
 Name:		metabase
 Version:	0.35.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Metabase data visualisation tool
 License:	Affero GPLv3
 URL:		https://www.metabase.com
@@ -71,5 +71,8 @@ install -D -m 644 %{SOURCE4} \
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Jun 23 2020 Michael Brown <mbrown@fensystems.co.uk> - 0.35.4-2
+- Add httpd.conf fragment
+
 * Mon Jun 22 2020 Michael Brown <mbrown@fensystems.co.uk> - 0.35.4-1
 - First placeholder package
